@@ -42,5 +42,5 @@ jobs:
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             ./xray-checker ${{ inputs.args }}
           else
-            ./xray-checker --subscription-url=${{ secrets.SUBSCRIPTION_URL }} --metrics-push-url=${{ secrets.PUSH_URL }} --metrics-instance=$INSTANCE --run-once
+            ./xray-checker --subscription-url=${{ secrets.SUBSCRIPTION_URL }} --run-once
           fi
