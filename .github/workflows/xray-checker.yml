@@ -41,6 +41,7 @@ jobs:
         run: |
            ./xray-checker --subscription-url=${{ secrets.SUBSCRIPTION_URL }} --run-once
         continue-on-error: true
-      - name: Subsequent step
+      - name: Notify via tg
+        if: steps.checker.outcome == 'failure'
         run: |
           echo "This step will run even if the previous one failed"
