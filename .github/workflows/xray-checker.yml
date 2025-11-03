@@ -35,7 +35,7 @@ jobs:
         env:
           INSTANCE: ${{ secrets.INSTANCE || 'github-actions' }}
         run: |
-           ./xray-checker --subscription-url=${{ secrets.SUBSCRIPTION_URL }} --run-once
+           ./xray-checker --subscription-url=${{ secrets.SUBSCRIPTION_URL }} --run-once >> $GITHUB_OUTPUT
         continue-on-error: true
       - name: Notify via tg
         if: steps.checker.outcome == 'failure'
@@ -45,3 +45,4 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           message: |
             Failed to validate vless connection
+            ${{ steps.checker.outputs }}
