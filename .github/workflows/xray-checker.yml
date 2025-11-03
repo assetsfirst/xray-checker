@@ -44,5 +44,4 @@ jobs:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           message: |
-            Failed to validate vless connection
-            ${{ steps.checker.outputs }}
+            printf "${{ Failed to validate vless connection : join(steps.checker.outputs.*, '\n') }}"
