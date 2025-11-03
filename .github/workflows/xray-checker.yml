@@ -31,6 +31,7 @@ jobs:
 
       - name: Run xray-checker
         working-directory: xray-checker
+        id: checker
         env:
           INSTANCE: ${{ secrets.INSTANCE || 'github-actions' }}
         run: |
