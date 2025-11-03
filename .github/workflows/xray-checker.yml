@@ -35,7 +35,18 @@ jobs:
         env:
           INSTANCE: ${{ secrets.INSTANCE || 'github-actions' }}
         run: |
-           ./xray-checker --subscription-url=${{ secrets.SUBSCRIPTION_URL }} --run-once >> $GITHUB_OUTPUT
+          set +e
+          OUTPUT=$(./xray-checker --subscription-url=${{ secrets.SUBSCRIPTION_URL }} --run-once 2>&1)
+          EXIT_CODE=$?
+          set -e
+          
+          # Save output, handling multiline content
+          echo "result<<EOF" >> $GITHUB_OUTPUT
+          echo "$OUTPUT" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          
+          # Exit with the original exit code
+          exit $EXIT_CODE
         continue-on-error: true
       - name: Notify via tg
         if: steps.checker.outcome == 'failure'
@@ -44,4 +55,7 @@ jobs:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           message: |
-            printf "Failed to validate vless connection : ${{ join(steps.checker.outputs.*, '\n') }}"
+            ⚠️ Failed to validate vless connection
+            🔗 View run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            Output:
+            ${{ steps.checker.outputs.result }}
