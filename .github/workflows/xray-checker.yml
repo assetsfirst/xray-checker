@@ -43,5 +43,9 @@ jobs:
         continue-on-error: true
       - name: Notify via tg
         if: steps.checker.outcome == 'failure'
-        run: |
-          echo "This step will run even if the previous one failed"
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            Failed to validate vless connection
