@@ -2,8 +2,8 @@ name: Run xray-checker on Stage
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "0/20 * * * *"
+  # schedule:
+  #   - cron: "0/20 * * * *"
 
 jobs:
   run-xray-checker:
